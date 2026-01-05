@@ -56,7 +56,7 @@ void start_case(FSM *fsm, const uint32_t c) {
 void bcd_case(FSM *fsm, const uint32_t c) {
     if (is_separator(c)) {
         // Число закончилось
-        if (fsm->digit_count % 4 == 0) {
+        if (fsm->digit_count > 0 && fsm->digit_count % 4 == 0) {
             fsm->bcd_count++;
         }
         fsm->current_state = AT_START;
