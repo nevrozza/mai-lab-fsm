@@ -28,8 +28,11 @@ FSM *fsm_create() {
 
 bool is_separator(const uint32_t c) {
     return c == ' ' || c == '\n' || c == '\t' ||
-           c == ',' || c == '.' ||
-           c == '\r' || c == 0;
+           c == ',' || c == '.' || c == '\r' ||
+           c == 0 ||
+           (c >= 0x2000 && c <= 0x200A) || // unicode spaces
+           c == 0x3000 || // ideographic space
+           c == 0x00A0; // nbsp
 }
 
 bool is_digit(const uint32_t c) {
@@ -88,7 +91,7 @@ void fsm_step(FSM *fsm, const uint32_t c) {
 
 // corner case
 void fsm_finish(FSM *fsm) {
-    if (fsm->current_state == IN_BCD && fsm->digit_count%4 == 0) {
+    if (fsm->current_state == IN_BCD && fsm->digit_count % 4 == 0) {
         fsm->bcd_count++;
     }
 }
