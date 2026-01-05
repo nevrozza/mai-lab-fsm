@@ -5,6 +5,7 @@
 #include "fsm.h"
 
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 struct FSM {
@@ -16,6 +17,10 @@ struct FSM {
 
 FSM *fsm_create() {
     FSM *fsm = malloc(sizeof(FSM));
+    if (fsm == NULL) {
+        perror("MemoryError");
+        return NULL; // stfu IDE
+    }
     fsm->current_state = AT_START;
     fsm->bcd_count = 0;
     return fsm;
